@@ -5,6 +5,7 @@ const moment = require("moment");
 const BTC = require("./models/BTC");
 const Modern = require("./models/Modern");
 const TwoD = require("./models/TwoD");
+const TwoDOption = require("./models/TwoDOption");
 
 module.exports.scrapeData = async () => {
   const axios = require("axios");
@@ -108,4 +109,19 @@ module.exports.storeTwoDData = async (time) => {
     .catch((error) => {
       console.log("❌ 2D Data saving error", error);
     });
+};
+
+module.exports.updateTwoDRunning = async (running) => {
+  var query = {},
+    update = { running },
+    options = { upsert: true, new: true, setDefaultsOnInsert: true };
+
+  const updateTwoD = await TwoDOption.findOneAndUpdate(query, update, options);
+  console.log("2D Running status changed to " + running);
+};
+
+module.exports.getTwoDRunning = async () => {
+  const running = await TwoDOption.find();
+  console.log("2d status", running[0].running);
+  return running[0].running;
 };

@@ -39,6 +39,26 @@ module.exports.getTodayResult = async (req, res) => {
   res.send(data);
 };
 
+module.exports.getYesterdayResult = async (req, res) => {
+  const today = moment(new Date()).subtract(2, "days").format("YYYY-MM-DD");
+  const twoD = await TwoD.find({
+    date: today,
+  }).sort({
+    time: 1,
+  });
+  const modNet = await Modern.find({
+    date: today,
+  }).sort({
+    time: -1,
+  });
+
+  const data = {
+    twoD,
+    modNet,
+  };
+  res.send(data);
+};
+
 module.exports.getTwoDHistory = async (req, res) => {
   const twoD = await TwoD.find({}).sort({
     date: -1,

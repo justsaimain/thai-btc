@@ -2,8 +2,17 @@ const { default: axios } = require("axios");
 const moment = require("moment");
 const ThreeD = require("../models/ThreeD");
 const TwoD = require("../models/TwoD");
+const dotenv = require("dotenv");
+dotenv.config();
+const baseURL = process.env.BASE_URL;
 module.exports.getIndex = async (req, res) => {
-  res.render("index", { moment });
+  const { data } = await axios.get(`${baseURL}/api/live`);
+  const rToday = await axios.get(`${baseURL}/api/today`);
+  const rYesterday = await axios.get(`${baseURL}/api/yesterday`);
+  const today = rToday.data;
+  const yesterday = rYesterday.data;
+
+  res.render("index", { moment, data, today, yesterday });
 };
 
 module.exports.getBTCPage = async (req, res) => {

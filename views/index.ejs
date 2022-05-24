@@ -1,10 +1,15 @@
 <%- include('./partials/head.ejs') %> 
   <body>
-    <!-- <h1 class="app-title">Myanmar <span>2D</span> <span>3D</span></h1> -->
+    <div class="nav-bar">
+        <div>
+           <a class="threed-link" href="/3d">3D</a>
+        </div>
+        <button class="twod-link" onclick="location.href = '/2d';"><img src="schedule.png" alt="" /> 2D History</button>
+    </div>
     <div class="top-div">
-      <h1 class="last-twod" id="current-result">--</h1>
-      <p class="last-status" id="current-status">* Market Status : </p>
-      <p class="last-update" id="current-update">✔ Update : <%= moment(new Date()).format('D MMM, hh:mm A') %></p>
+      <h1 class="last-twod" id="current-result"><%= data.result %> </h1>
+      <p class="last-status" id="current-status">* Market Status : <%= data.status %>  </p>
+      <p class="last-update" id="current-update">✔ Update : <%= data.lastUpdate %></p>
     </div>
     <marquee class="marquee"
       >Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque temporibus
@@ -18,15 +23,15 @@
         <div class="flex">
           <div class="col">
             <p class="twod-title">SET</p>
-            <h1 class="twod-set" id="noon-set">1234.56</h1>
+            <h1 class="twod-set" id="noon-set"><%= today.twoD[0] ? today.twoD[0].set : "--" %> </h1>
           </div>
           <div class="col">
             <p class="twod-title">VALUE</p>
-            <h1 class="twod-value" id="noon-value">6543.21</h1>
+            <h1 class="twod-value" id="noon-value"><%= today.twoD[0] ? today.twoD[0].value : "--" %></h1>
           </div>
           <div class="col">
             <p class="twod-title">RESULT</p>
-            <h1 class="twod-value" id="noon-result">65</h1>
+            <h1 class="twod-value" id="noon-result"><%= today.twoD[0] ? today.twoD[0].result : "--" %></h1>
           </div>
         </div>
       </div>
@@ -35,15 +40,15 @@
         <div class="flex">
           <div class="col">
             <p class="twod-title">SET</p>
-            <h1 class="twod-set" id="evening-set">1234.56</h1>
+            <h1 class="twod-set" id="evening-set"><%= today.twoD[1] ? today.twoD[1].set : "--" %></h1>
           </div>
           <div class="col">
             <p class="twod-title">VALUE</p>
-            <h1 class="twod-value" id="evening-value">6543.21</h1>
+            <h1 class="twod-value" id="evening-value"><%= today.twoD[1] ? today.twoD[1].value : "--" %></h1>
           </div>
           <div class="col">
             <p class="twod-title">RESULT</p>
-            <h1 class="twod-value" id="evening-result">99</h1>
+            <h1 class="twod-value" id="evening-result"><%= today.twoD[1] ? today.twoD[1].result : "--" %></h1>
           </div>
         </div>
       </div>
@@ -71,83 +76,33 @@
       <div class="morning-div">
         <div>
           <p class="mod-title">Modern</p>
-          <p class="mod-result" id="morning-mod">--</p>
+          <p class="mod-result" id="morning-mod"><%= today.modNet[0] ? today.modNet[0].mod : "--" %></p>
         </div>
         <div>
           <p class="mod-time">9:30 AM</p>
         </div>
         <div>
           <p class="mod-title">Internet</p>
-          <p class="mod-result" id="morning-net">--</p>
+          <p class="mod-result" id="morning-net"><%= today.modNet[0] ? today.modNet[0].net : "--" %></p>
         </div>
       </div>
       <div class="noon-div">
         <div>
           <p class="mod-title">Modern</p>
-          <p class="mod-result" id="noon-mod">--</p>
+          <p class="mod-result" id="noon-mod"><%= today.modNet[0] ? today.modNet[0].mod : "--" %></p>
         </div>
         <div>
           <p class="mod-time">2:00 PM</p>
         </div>
         <div>
           <p class="mod-title">Internet</p>
-          <p class="mod-result" id="noon-net">--</p>
+          <p class="mod-result" id="noon-net"><%= today.modNet[0] ? today.modNet[1].net : "--" %></p>
         </div>
       </div>
     </div>
-    <div class="action-div">
-      <button onclick="location.href = '/3d';"> 3D Result</button>
-      <button onclick="location.href = '/2d';"><img src="schedule.png" alt="" /> View Result History</button>
-    </div>
+    <script>
+     
+    </script>
   </body>
 
-  <script>
-    function getLiveData() {
-      let xmlHttp = null;
-      xmlHttp = new XMLHttpRequest();
-      xmlHttp.open("GET", "/api/live", false);
-      xmlHttp.send(null);
-      let data = JSON.parse(xmlHttp.response);
-      document.getElementById("current-result").innerText = data.result;
-      document.getElementById("current-status").innerText = "* Market Status : " + data.status;
-      if(data.status === "Closed"){
-        document.getElementById("current-result").classList.remove("blink_me");
-        document.getElementById("current-status").classList.add("closed");
-      }else{
-        document.getElementById("current-result").classList.add("blink_me");
-        document.getElementById("current-status").classList.remove("closed");
-
-      }
-      document.getElementById("current-update").innerText = "✔ Update : " + data.lastUpdate;
-    }
-
-    function getTodayResult(){
-      let xmlHttp = null;
-      xmlHttp = new XMLHttpRequest();
-      xmlHttp.open("GET", "/api/today", false);
-      xmlHttp.send(null);
-      let data = JSON.parse(xmlHttp.response);
-     
-      document.getElementById("noon-set").innerText =  data.twoD[0] ?  data.twoD[0].set : "--";
-      document.getElementById("noon-value").innerText =  data.twoD[0] ? data.twoD[0].value : "--";
-      document.getElementById("noon-result").innerText =   data.twoD[0] ? data.twoD[0].result : "--";
-
-      document.getElementById("evening-set").innerText = data.twoD[1] ? data.twoD[1].set : "--";
-      document.getElementById("evening-value").innerText = data.twoD[1]? data.twoD[1].value : "--";
-      document.getElementById("evening-result").innerText = data.twoD[1]? data.twoD[1].result : "--";
-
-      document.getElementById("morning-mod").innerText = data.modNet[0] ? data.modNet[0].mod : "--";
-      document.getElementById("morning-net").innerText = data.modNet[0]? data.modNet[0].net : "--";
-
-      document.getElementById("noon-mod").innerText = data.modNet[1] ? data.modNet[1].mod : "--";
-      document.getElementById("noon-net").innerText = data.modNet[1]? data.modNet[1].net : "--";
-
-      getLiveData();
-
-    }
-    
-    setInterval(() => {
-      getTodayResult();
-    }, 1000);
-  </script>
-</html>
+</html> 

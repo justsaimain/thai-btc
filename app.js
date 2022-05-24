@@ -14,7 +14,13 @@ const dbURI = process.env.DB_URI;
 const userRoute = require("./routes/user");
 const adminRoute = require("./routes/admin");
 const apiRoute = require("./routes/api");
-const { storeTwoDData, storeBTCData } = require("./helper");
+const {
+  storeTwoDData,
+  storeBTCData,
+  intervalProcess,
+  scrapeData,
+  updateTwoDRunning,
+} = require("./helper");
 
 const app = express();
 app.set("view engine", "ejs");
@@ -42,6 +48,13 @@ cron.schedule("1 12 * * *", () => {
 cron.schedule("30 16 * * *", () => {
   // store data at 4:30 PM
   storeTwoDData("16:30");
+});
+
+cron.schedule("30 9 * * *", () => {});
+cron.schedule("0 14 * * *", () => {});
+
+cron.schedule("20 26 0 * * *", () => {
+  updateTwoDRunning(true);
 });
 
 mongoose
