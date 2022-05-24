@@ -1,0 +1,62 @@
+<%- include('./partials/head.ejs') %> 
+
+<style>
+  .twod-div .first{
+    color: #fff;
+    background-color: #2a9d8f;
+  }
+
+  .twod-time{
+    font-size: 16px;
+    font-weight: 400;
+  }
+
+  .last-update{
+    font-size: 18px;
+  }
+  .top-div{
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 4px 3px 10px 0px rgba(0, 0, 0, 0.047);
+    border-radius: 10px;
+  }
+
+  .last-twod{
+    font-size: 40px;
+    color: #2a9d8f;
+  }
+
+  .action-div button:nth-child(1){
+    background-color: #2a9d8f;
+    color: #fff;
+  }
+</style>
+  <body>
+    <div class="top-div">
+      <h1 class="last-twod" id="current-result"><%= latest.result %> </h1>
+      <p class="last-update" id="current-update"><%= latest.date %></p>
+    </div>
+    <div class="twod-div">
+    <% data.forEach(d => { %>
+       <div class="first">
+        <div class="flex">
+          <div class="col" style="flex: 2">
+            <p class="twod-title">Date</p>
+            <h1 class="twod-set" id="noon-set"><%= d.date %> </h1>
+          </div>
+          <div class="col">
+            <p class="twod-title">Result</p>
+            <h1 class="twod-value" id="noon-value"><%= d.result %> </h1>
+          </div>
+        </div>
+      </div>
+    <% }) %>
+    </div>
+    <div class="action-div">
+      <button onclick="location.href = '/';"><img src="schedule.png" alt="" /> 2D Live</button>
+    </div>
+  </body>
+
+  <script>
+  </script>
+</html>

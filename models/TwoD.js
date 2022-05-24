@@ -11,7 +11,15 @@ const twoDSchema = new Schema(
       type: String,
       required: true,
     },
-    twoD: {
+    result: {
+      type: String,
+      required: true,
+    },
+    time: {
+      type: String,
+      required: true,
+    },
+    date: {
       type: String,
       required: true,
     },

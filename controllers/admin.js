@@ -3,10 +3,13 @@ const jwt = require("jsonwebtoken");
 const jwtKey = process.env.TOKEN_SECRET;
 const jwtExpirySeconds = 300; // Seconds
 const moment = require("moment");
+const session = require("express-session");
 
 const Admin = require("../models/Admin");
 const Modern = require("../models/Modern");
 const ThreeD = require("../models/ThreeD");
+const BTCOption = require("../models/BTCOption");
+const TwoDOption = require("../models/TwoDOption");
 
 module.exports.getLogin = (req, res) => {
   res.render("admin/login");
@@ -59,11 +62,12 @@ module.exports.logout = async (req, res) => {
 };
 
 module.exports.getPanel = async (req, res) => {
-  res.render("admin/index");
+  const isRunning = await TwoDOption.find({});
+  res.render("admin/index", { isRunning: isRunning[0].running });
 };
 
 module.exports.getMod = async (req, res) => {
-  res.render("admin/modern");
+  res.render("admin/modern", { moment });
 };
 
 module.exports.postMod = async (req, res) => {
@@ -72,7 +76,7 @@ module.exports.postMod = async (req, res) => {
     mod,
     net,
     time,
-    date: moment(new Date()).format("D/M/YYYY"),
+    date: moment(new Date()).format("YYYY-MM-DD"),
   });
 
   modernData
@@ -88,7 +92,7 @@ module.exports.postMod = async (req, res) => {
 };
 
 module.exports.getThreeD = async (req, res) => {
-  res.render("admin/three_d");
+  res.render("admin/three_d", { moment });
 };
 
 module.exports.postThreeD = async (req, res) => {
@@ -109,3 +113,28 @@ module.exports.postThreeD = async (req, res) => {
 
   res.redirect("/panel/3d");
 };
+
+module.exports.getBTC = async (req, res) => {
+  res.render("admin/btc", { moment });
+};
+
+module.exports.postBTC = async (req, res) => {
+  const { set, value } = req.body;
+  const btcData = new BTCOption({
+    set,
+    value,
+  });
+
+  btcData
+    .save()
+    .then((result) => {
+      console.log("✅ BTC Option Data saved to database", result);
+    })
+    .catch((error) => {
+      console.log("❌ BTC Option Data saving error", error);
+    });
+
+  res.redirect("/panel/btc");
+};
+
+module.exports.toggle2DStatus = async (req, res) => {};

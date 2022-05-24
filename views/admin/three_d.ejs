@@ -1,17 +1,77 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
+<%- include('./partials/head.ejs') %> 
+<style>
+  .main-title{
+    font-size: 16px;
+    font-weight: 400;
+  }
+
+  .main-date{
+    font-size: 18px;
+    font-weight: 400;
+  }
+
+  .data-form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 30px;
+    margin-top: 20px;
+    box-shadow: 4px 3px 10px 0px rgba(0, 0, 0, 0.047);
+  }
+
+  .input-text{
+    margin-bottom: 10px;
+    padding: 10px;
+    width: 200px;
+    border: 1px solid #333;
+    border-radius: 5px;
+  }
+
+  .choose-time{
+    margin-bottom: 10px;
+  }
+
+  .submit-btn{
+    padding: 10px 30px;
+    background: #3a86ff;
+    color: #fff;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .main-panel-btn{
+    text-decoration: underline;
+    font-size: 14px;
+    margin: 10px auto;
+    color: #333;
+    text-align: center;
+  }
+
+  .alert-div{
+    background-color: #3a86ff;
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+  }
+</style>
   <body>
-    <h1>add three d</h1>
-    <form action="/panel/3d" method="POST">
-      <input type="text" name="result" placeholder="Result" />
-      <input type="text" name="date" placeholder="Date" />
-      <button type="submit">Add</button>
+    <%- include('./partials/app_title.ejs') %> 
+    <h1 class="main-title">Add 3D Result</h1>
+    <h1 class="main-date"><%= moment(new Date()).format('D/M/YYYY') %> </h1>
+    <form class="data-form" action="/panel/3d" method="POST">
+      <input class="input-text" type="text" name="date" placeholder="Date" value="<%= moment(new Date()).format('D/M/YYYY') %>"  />
+      <input class="input-text" type="text" name="result" placeholder="Result" />
+      <button  class="submit-btn" type="submit">Add</button>
     </form>
+    <div style="display: flex">
+      <a class="main-panel-btn" href="/panel">Go Back Main Panel</a>
+    </div>
   </body>
 </html>

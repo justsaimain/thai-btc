@@ -63,37 +63,15 @@
 </style>
   <body>
     <%- include('./partials/app_title.ejs') %> 
-    <h1 class="main-title">Add Modern & Internet</h1>
-    <h1 class="main-date"><%= moment(new Date()).format('D/M/YYYY') %></h1>
-    <form class="data-form" action="/panel/modern" method="POST">
-      <div class="choose-time">
-        <input type="radio" id="morning" name="time" value="9:30 AM" />
-        <label for="morning">9:30 AM</label>
-        <input type="radio" id="evening" name="time" value="4:00 PM" />
-        <label for="evening">4:00 PM</label>
-      </div>
-      <input class="input-text" type="text" name="mod" placeholder="Modern" />
-      <input class="input-text" type="text" name="net" placeholder="Internet" />
+    <h1 class="main-title">Manage BTC</h1>
+    <h1 class="main-date"><%= moment(new Date()).format('D/M/YYYY') %> </h1>
+    <form class="data-form" action="/panel/btc" method="POST">
+      <input class="input-text" type="text" name="set" placeholder="Set (123.45)"   />
+      <input class="input-text" type="text" name="value" placeholder="Value (1.23)" />
       <button  class="submit-btn" type="submit">Add</button>
     </form>
     <div style="display: flex">
       <a class="main-panel-btn" href="/panel">Go Back Main Panel</a>
     </div>
-
-    <!-- <div>
-      <div class="history-card">
-        <div>
-          <p class="mod-title">Modern</p>
-          <p class="mod-result" id="noon-mod">--</p>
-        </div>
-        <div>
-          <p class="mod-time">2:00 PM</p>
-        </div>
-        <div>
-          <p class="mod-title">Internet</p>
-          <p class="mod-result" id="noon-net">--</p>
-        </div>
-      </div>
-    </div> -->
   </body>
 </html>

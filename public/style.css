@@ -39,6 +39,19 @@ body {
   margin-bottom: 10px;
 }
 
+.last-status {
+  margin: 0;
+  padding: 0;
+  margin-bottom: 10px;
+  font-size: 12px;
+  font-style: italic;
+  color: #2a9d8f;
+}
+
+.closed {
+  color: #ff006e;
+}
+
 .last-update {
   padding: 0;
   margin: 0;
@@ -51,7 +64,8 @@ body {
 }
 
 .twod-div .first,
-.twod-div .last {
+.twod-div .last,
+.btc-div .first {
   background: #3a86ff;
   box-shadow: 4px 3px 10px 0px rgba(0, 0, 0, 0.047);
   color: #fff;
@@ -185,13 +199,19 @@ body {
 
 .marquee {
   margin-top: 14px;
+  font-size: 14px;
 }
 
 .action-div {
   margin-top: 20px;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
+}
+
+.action-div button:nth-child(1) {
+  background-color: #3a86ff;
+  color: #fff;
 }
 
 .action-div button img {
@@ -229,4 +249,15 @@ body {
   50% {
     opacity: 0;
   }
+}
+
+.btc-div .first {
+  background-color: #fda437;
+  color: #fff;
+  margin-top: 20px;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
 }

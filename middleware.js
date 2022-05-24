@@ -11,7 +11,7 @@ module.exports.adminMiddleware = (req, res, next) => {
   }
 
   jwt.verify(token, jwtKey, (err, user) => {
-    if (err) return res.sendStatus(403);
+    if (err) return res.redirect("/panel/login");
     next();
   });
 };

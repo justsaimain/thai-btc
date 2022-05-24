@@ -1,6 +1,7 @@
 // scrape data from set.or.th website
 
 const { default: axios } = require("axios");
+const moment = require("moment");
 const BTC = require("./models/BTC");
 const Modern = require("./models/Modern");
 const TwoD = require("./models/TwoD");
@@ -38,13 +39,12 @@ module.exports.scrapeData = async () => {
       .replace("\n            Market Status: ", "")
       .replace("\n        ", "");
 
-    const twoD = set.slice(-1) + value.split(".")[0].slice(-1);
-
+    const result = set.slice(-1) + value.split(".")[0].slice(-1);
     const saveData = {
       set,
       value,
-      twoD,
-      lastUpdate,
+      result,
+      lastUpdate: moment(new Date(lastUpdate)).format("D MMM, hh:mm A"),
       status,
     };
     return saveData;
@@ -90,9 +90,15 @@ module.exports.storeBTCData = async () => {
     });
 };
 
-module.exports.storeTwoDData = async () => {
+module.exports.storeTwoDData = async (time) => {
   const scrapedData = await this.scrapeData();
-  const twoDData = new TwoD(scrapedData);
+  const twoDData = new TwoD({
+    set: scrapedData.set,
+    value: scrapedData.value,
+    result: scrapedData.result,
+    time: time,
+    date: moment(new Date()).format("YYYY-MM-DD"),
+  });
 
   twoDData
     .save()

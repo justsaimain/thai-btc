@@ -4,7 +4,10 @@ const bodyParser = require("body-parser");
 const dotenv = require("dotenv");
 dotenv.config();
 const cron = require("node-cron");
-
+const session = require("express-session");
+const cookieParser = require("cookie-parser");
+const flash = require("connect-flash");
+const toastr = require("express-toastr");
 const port = process.env.PORT;
 const dbURI = process.env.DB_URI;
 
@@ -18,28 +21,34 @@ app.set("view engine", "ejs");
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.set("trust proxy", 1);
+app.use(cookieParser("secret"));
+app.use(
+  session({
+    secret: "thisissessionsecret12345",
+    saveUninitialized: true,
+    resave: true,
+  })
+);
+app.use(flash());
+app.use(toastr());
 
 // schedules
 cron.schedule("1 12 * * *", () => {
   // store data at 12:01 PM
-  storeTwoDData();
+  storeTwoDData("12:01");
 });
 
-cron.schedule("30 4 * * *", () => {
+cron.schedule("30 16 * * *", () => {
   // store data at 4:30 PM
-  storeTwoDData();
-});
-
-cron.schedule("54 20 * * *", () => {
-  // store data at Testing Time
-  // storeTwoDData();
+  storeTwoDData("16:30");
 });
 
 mongoose
   .connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(function (result) {
     console.log("App is running at Port " + port);
-    app.listen(port);
+    app.listen(port, "localhost");
   })
   .catch((err) => console.log(err));
 

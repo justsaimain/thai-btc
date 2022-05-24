@@ -1,15 +1,41 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
+<%- include('./partials/head.ejs') %> 
+<style>
+ 
+body{
+  padding-top: 200px;
+}
+
+ body form {
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+ }
+ 
+body form input{
+  margin-bottom: 10px;
+  padding: 10px;
+  width: 200px;
+  border: 1px solid #333;
+  border-radius: 5px;
+}
+
+body form button {
+  padding: 10px 30px;
+  background: #3a86ff;
+  color: #fff;
+  border: none;
+  outline: none;
+  box-shadow: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+</style>
   <body>
     <form action="/panel/login" method="POST">
-      <input type="text" name="username" placeholder="username" />
-      <input type="password" name="password" placeholder="password" />
+      <input type="text" name="username" autofocus placeholder="Username" />
+      <input type="password" name="password" placeholder="Password" />
       <button type="submit">Login</button>
     </form>
   </body>

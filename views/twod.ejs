@@ -1,0 +1,48 @@
+<%- include('./partials/head.ejs') %> 
+
+<style>
+  .twod-div .first{
+    color: #fff;
+    background-color: #3a86ff;
+  }
+
+  .twod-time{
+    font-size: 16px;
+    font-weight: 400;
+  }
+
+  .action-div button:nth-child(1){
+    background-color: #fff;
+    color: #333;
+  }
+</style>
+  <body>
+    <div class="twod-div">
+    <% data.forEach(d => { %>
+       <div class="first">
+        <p class="twod-time"><%= d.date %> <%= d.time %>  </p>
+        <div class="flex">
+          <div class="col">
+            <p class="twod-title">SET</p>
+            <h1 class="twod-set" id="noon-set"><%= d.set %> </h1>
+          </div>
+          <div class="col">
+            <p class="twod-title">VALUE</p>
+            <h1 class="twod-value" id="noon-value"><%= d.value %> </h1>
+          </div>
+          <div class="col">
+            <p class="twod-title">RESULT</p>
+            <h1 class="twod-value" id="noon-result"><%= d.result %> </h1>
+          </div>
+        </div>
+      </div>
+    <% }) %>
+    </div>
+    <div class="action-div">
+      <button onclick="location.href = '/';"><img src="schedule.png" alt="" /> 2D Live</button>
+    </div>
+  </body>
+
+  <script>
+  </script>
+</html>

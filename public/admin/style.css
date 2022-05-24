@@ -1,0 +1,25 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap");
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
+  background: #f5f9fc;
+  max-width: 390px;
+  margin: auto;
+  padding-top: 30px;
+  color: #808080;
+}
+
+.history-card {
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fff;
+  padding: 10px 30px;
+}
+
+.mod-result {
+  text-align: center;
+}
