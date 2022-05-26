@@ -53,10 +53,6 @@ cron.schedule("30 16 * * *", () => {
 cron.schedule("30 9 * * *", () => {});
 cron.schedule("0 14 * * *", () => {});
 
-cron.schedule("35 59 10 * * *", () => {
-  storeTwoDData("12:01");
-});
-
 mongoose
   .connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(function (result) {
