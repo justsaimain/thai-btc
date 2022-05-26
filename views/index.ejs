@@ -202,6 +202,14 @@
         let now = new Date().getHours() + ":" + new Date().getMinutes();
 
         let todayData = getTodayData();
+
+        
+        document.getElementById("morning-mod").innerText = todayData.modNet[0] ? todayData.modNet[0].mod : "--";
+        document.getElementById("morning-net").innerText = todayData.modNet[0] ? todayData.modNet[0].net : "--";;
+        document.getElementById("noon-mod").innerText = todayData.modNet[1] ? todayData.modNet[1].mod : "--";;
+        document.getElementById("noon-net").innerText = todayData.modNet[1] ? todayData.modNet[1].net : "--";;
+
+
         if(todayData.twoD.length < 1 ){
           if(compareTime(now,"9:00") && !compareTime(now,"12:01")){
             getLiveData('noon');
@@ -223,8 +231,6 @@
         }
       }
 
-
-      getTodayData();
 
       setInterval(() => {
         init();
