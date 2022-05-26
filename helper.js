@@ -45,7 +45,7 @@ module.exports.scrapeData = async () => {
       set,
       value,
       result,
-      lastUpdate: moment(new Date(lastUpdate)).format("D MMM, hh:mm A"),
+      lastUpdate,
       status,
     };
     return saveData;

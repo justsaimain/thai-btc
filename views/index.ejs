@@ -7,31 +7,30 @@
         <button class="twod-link" onclick="location.href = '/2d';"><img src="schedule.png" alt="" /> 2D History</button>
     </div>
     <div class="top-div">
-      <h1 class="last-twod" id="current-result"><%= data.result %> </h1>
-      <p class="last-status" id="current-status">* Market Status : <%= data.status %>  </p>
-      <p class="last-update" id="current-update">✔ Update : <%= data.lastUpdate %></p>
+      <h1 class="last-twod" id="current-result">--</h1>
+      <p class="last-update" id="current-update">Data Loading ... </p>
     </div>
-    <marquee class="marquee"
+    <!-- <marquee class="marquee"
       >Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque temporibus
       blanditiis error? Suscipit perferendis, labore culpa necessitatibus
       distinctio impedit maiores, saepe cumque exercitationem quisquam fugit
       quos odit eum est itaque?</marquee
-    >
+    > -->
     <div class="twod-div">
       <div class="first">
         <p class="twod-time">12:01 PM</p>
         <div class="flex">
           <div class="col">
             <p class="twod-title">SET</p>
-            <h1 class="twod-set" id="noon-set"><%= today.twoD[0] ? today.twoD[0].set : "--" %> </h1>
+            <h1 class="twod-set" id="noon-set"></h1>
           </div>
           <div class="col">
             <p class="twod-title">VALUE</p>
-            <h1 class="twod-value" id="noon-value"><%= today.twoD[0] ? today.twoD[0].value : "--" %></h1>
+            <h1 class="twod-value" id="noon-value"></h1>
           </div>
           <div class="col">
             <p class="twod-title">RESULT</p>
-            <h1 class="twod-value" id="noon-result"><%= today.twoD[0] ? today.twoD[0].result : "--" %></h1>
+            <h1 class="twod-value" id="noon-result"></h1>
           </div>
         </div>
       </div>
@@ -40,15 +39,15 @@
         <div class="flex">
           <div class="col">
             <p class="twod-title">SET</p>
-            <h1 class="twod-set" id="evening-set"><%= today.twoD[1] ? today.twoD[1].set : "--" %></h1>
+            <h1 class="twod-set" id="evening-set"></h1>
           </div>
           <div class="col">
             <p class="twod-title">VALUE</p>
-            <h1 class="twod-value" id="evening-value"><%= today.twoD[1] ? today.twoD[1].value : "--" %></h1>
+            <h1 class="twod-value" id="evening-value"></h1>
           </div>
           <div class="col">
             <p class="twod-title">RESULT</p>
-            <h1 class="twod-value" id="evening-result"><%= today.twoD[1] ? today.twoD[1].result : "--" %></h1>
+            <h1 class="twod-value" id="evening-result"></h1>
           </div>
         </div>
       </div>
@@ -76,33 +75,115 @@
       <div class="morning-div">
         <div>
           <p class="mod-title">Modern</p>
-          <p class="mod-result" id="morning-mod"><%= today.modNet[0] ? today.modNet[0].mod : "--" %></p>
+          <p class="mod-result" id="morning-mod"></p>
         </div>
         <div>
           <p class="mod-time">9:30 AM</p>
         </div>
         <div>
           <p class="mod-title">Internet</p>
-          <p class="mod-result" id="morning-net"><%= today.modNet[0] ? today.modNet[0].net : "--" %></p>
+          <p class="mod-result" id="morning-net"></p>
         </div>
       </div>
       <div class="noon-div">
         <div>
           <p class="mod-title">Modern</p>
-          <p class="mod-result" id="noon-mod"><%= today.modNet[0] ? today.modNet[0].mod : "--" %></p>
+          <p class="mod-result" id="noon-mod"></p>
         </div>
         <div>
           <p class="mod-time">2:00 PM</p>
         </div>
         <div>
           <p class="mod-title">Internet</p>
-          <p class="mod-result" id="noon-net"><%= today.modNet[0] ? today.modNet[1].net : "--" %></p>
+          <p class="mod-result" id="noon-net"></p>
         </div>
       </div>
     </div>
     <script>
-     
-    </script>
+       function getLiveData(time) {
+        let xmlHttp = null;
+        xmlHttp = new XMLHttpRequest();
+        xmlHttp.open("GET", "/api/live", false);
+        xmlHttp.send(null);
+        let data = JSON.parse(xmlHttp.response);
+        if(time === "noon"){
+          document.getElementById("evening-set").classList.remove("blink-me");
+          document.getElementById("evening-value").classList.remove("blink-me");
+          document.getElementById("noon-set").classList.add("blink-me");
+          document.getElementById("noon-value").classList.add("blink-me");
+          document.getElementById("current-result").classList.add("blink-me");
+          document.getElementById("current-result").innerText = data.result;
+          document.getElementById("current-update").innerText =  "Updated : " + data.lastUpdate;
+          document.getElementById("noon-set").innerText = data.set;
+          document.getElementById("noon-value").innerText =  data.value;
+          document.getElementById("noon-result").innerText = "--";
+        }else if (time === "evening"){
+          document.getElementById("noon-set").classList.remove("blink-me");
+          document.getElementById("noon-value").classList.remove("blink-me");
+          document.getElementById("evening-set").classList.add("blink-me");
+          document.getElementById("evening-value").classList.add("blink-me");
+          document.getElementById("current-result").classList.add("blink-me");
+          document.getElementById("current-result").innerText = data.result;
+          document.getElementById("current-update").innerText =  "Updated : " + data.lastUpdate;
+          document.getElementById("evening-set").innerText = data.set;
+          document.getElementById("evening-value").innerText =  data.value;
+          document.getElementById("evening-result").innerText = "--";
+        }
+      }
+
+       function getTodayData() {
+          let xmlHttp = null;
+          xmlHttp = new XMLHttpRequest();
+          xmlHttp.open("GET", "/api/today", false);
+          xmlHttp.send(null);
+          let data = JSON.parse(xmlHttp.response);
+          return data;
+      }
+
+      function getFinalData() {
+          let xmlHttp = null;
+          xmlHttp = new XMLHttpRequest();
+          xmlHttp.open("GET", "/api/today", false);
+          xmlHttp.send(null);
+          let data = JSON.parse(xmlHttp.response);
+          document.getElementById("noon-set").classList.remove("blink-me");
+          document.getElementById("noon-value").classList.remove("blink-me");
+          document.getElementById("evening-set").classList.remove("blink-me");
+          document.getElementById("evening-value").classList.remove("blink-me");
+          document.getElementById("current-result").innerText = data.twoD[1].result;
+          document.getElementById("current-update").innerText =  "Updated : " + data.twoD[1].date + " " + data.twoD[1].time;
+          document.getElementById("noon-set").innerText = data.twoD[0].set;
+          document.getElementById("noon-value").innerText =  data.twoD[0].value;
+          document.getElementById("noon-result").innerText = data.twoD[0].result;
+          document.getElementById("evening-set").innerText = data.twoD[1].set;
+          document.getElementById("evening-value").innerText =  data.twoD[1].value;
+          document.getElementById("evening-result").innerText = data.twoD[1].result;
+      }
+
+
+      function init(){
+        let todayData = getTodayData();
+        if(todayData.twoD.length < 1 ){
+          getLiveData('noon');
+        }else if(todayData.twoD.length === 1){
+          document.getElementById("noon-set").innerText = todayData.twoD[0].set;
+          document.getElementById("noon-value").innerText =  todayData.twoD[0].value;
+          document.getElementById("noon-result").innerText = todayData.twoD[0].result;
+          getLiveData('evening');
+        }else if(todayData.twoD.length > 2){
+          console.log('all done');
+          getFinalData();
+        }
+      }
+
+
+    
+      getTodayData();
+
+      setInterval(() => {
+        init();
+      }, 3000);
+</script>
   </body>
 
 </html> 
