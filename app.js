@@ -39,16 +39,23 @@ app.use(
 app.use(flash());
 app.use(toastr());
 
-// schedules
-cron.schedule("1 12 * * *", () => {
-  // store data at 12:01 PM
-  storeTwoDData("12:01");
-});
+function isWeekend(date = new Date()) {
+  return date.getDay() === 6 || date.getDay() === 0;
+}
+const today = new Date();
 
-cron.schedule("30 16 * * *", () => {
-  // store data at 4:30 PM
-  storeTwoDData("16:30");
-});
+if (!isWeekend(today)) {
+  // schedules
+  cron.schedule("1 12 * * *", () => {
+    // store data at 12:01 PM
+    storeTwoDData("12:01");
+  });
+
+  cron.schedule("30 16 * * *", () => {
+    // store data at 4:30 PM
+    storeTwoDData("16:30");
+  });
+}
 
 cron.schedule("30 9 * * *", () => {});
 cron.schedule("0 14 * * *", () => {});
