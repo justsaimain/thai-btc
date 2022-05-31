@@ -1,4 +1,4 @@
-const { getModData, scrapeData, getBTCLive } = require("../helper");
+const { getModData, scrapeData, getBTCLive, getHoliday } = require("../helper");
 const TwoD = require("../models/TwoD");
 const moment = require("moment");
 const Modern = require("../models/Modern");
@@ -72,4 +72,13 @@ module.exports.getThreeDHistory = async (req, res) => {
     date: -1,
   });
   res.send(threeD);
+};
+
+module.exports.getHoliday = async (req, res) => {
+  try {
+    const holiday = await getHoliday();
+    res.send(holiday);
+  } catch (e) {
+    console.log(e);
+  }
 };

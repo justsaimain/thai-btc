@@ -138,3 +138,7 @@ module.exports.postBTC = async (req, res) => {
 };
 
 module.exports.toggle2DStatus = async (req, res) => {};
+
+module.exports.getTwoD = async (req, res) => {
+  res.send("2dpage");
+};

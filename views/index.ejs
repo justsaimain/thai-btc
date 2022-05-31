@@ -133,6 +133,8 @@
           document.getElementById("noon-set").innerText = data.set;
           document.getElementById("noon-value").innerText =  data.value;
           document.getElementById("noon-result").innerText = "--";
+
+     
         }else if (time === "evening"){
           document.getElementById("noon-set").classList.remove("blink-me");
           document.getElementById("noon-value").classList.remove("blink-me");
@@ -227,7 +229,6 @@
           getFinalData();
         }
       }
-
 
       setInterval(() => {
         init();

@@ -7,6 +7,7 @@ const {
   getTodayResult,
   getTwoDHistory,
   getYesterdayResult,
+  getHoliday,
   getThreeDHistory,
 } = require("../controllers/api");
 const router = Router();
@@ -20,5 +21,6 @@ router.get("/mod", getMod);
 router.get("/2d", getTwoDHistory);
 router.get("/3d", getThreeDHistory);
 router.get("/btc", getBTCLive);
+router.get("/holiday", getHoliday);
 
 module.exports = router;

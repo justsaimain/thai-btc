@@ -6,6 +6,7 @@ const router = Router();
 const {
   getPanel,
   postMod,
+  getTwoD,
   logout,
   getMod,
   postLogin,
@@ -27,6 +28,7 @@ router.post("/login", postLogin);
 router.use(adminMiddleware);
 
 router.get("/", getPanel);
+router.get("/2d", getTwoD);
 router.get("/modern", getMod);
 router.post("/modern", postMod);
 router.get("/3d", getThreeD);

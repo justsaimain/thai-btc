@@ -125,3 +125,60 @@ module.exports.getTwoDRunning = async () => {
   console.log("2d status", running[0].running);
   return running[0].running;
 };
+
+module.exports.getHoliday = async () => {
+  const axios = require("axios");
+  const cheerio = require("cheerio");
+  const dates = [];
+  const iso = [];
+  const dateNames = [];
+  const reasons = [];
+  const allData = [];
+
+  const url = "https://classic.set.or.th/set/holiday.do?language=en&country=US";
+
+  try {
+    const { data } = await axios.get(url);
+    const $ = cheerio.load(data);
+
+    const activeYear = $("#maincontent > div > ul > li.active > a").text();
+
+    $(
+      "#maincontent > div > div.table-responsive > table > tbody > tr > td:nth-child(3)"
+    )
+      .toArray()
+      .map((item) => {
+        iso.push(new Date($(item).text() + " " + activeYear));
+        dates.push($(item).text() + " " + activeYear);
+      });
+
+    $(
+      "#maincontent > div > div.table-responsive > table > tbody > tr > td:nth-child(2)"
+    )
+      .toArray()
+      .map((item) => {
+        dateNames.push($(item).text().trim());
+      });
+
+    $(
+      "#maincontent > div > div.table-responsive > table > tbody > tr > td:nth-child(4)"
+    )
+      .toArray()
+      .map((item) => {
+        reasons.push($(item).text().trim());
+      });
+
+    dates.forEach((element, index) => {
+      allData.push({
+        iso: iso[index],
+        date: element,
+        dateName: dateNames[index],
+        reason: reasons[index],
+      });
+    });
+
+    return allData;
+  } catch (e) {
+    console.log(e);
+  }
+};
