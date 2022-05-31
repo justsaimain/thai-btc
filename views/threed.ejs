@@ -39,8 +39,8 @@
         <button class="twod-link" onclick="location.href = '/';"><img src="schedule.png" alt="" /> 2D Live</button>
     </div>
     <div class="top-div">
-      <h1 class="last-twod" id="current-result"><%= latest.result %> </h1>
-      <p class="last-update" id="current-update"><%= latest.date %></p>
+      <h1 class="last-twod" id="current-result"><%= latest?.result %> </h1>
+      <p class="last-update" id="current-update"><%= latest?.date %></p>
     </div>
     <div class="twod-div">
     <% data.forEach(d => { %>
