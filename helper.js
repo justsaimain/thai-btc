@@ -3,6 +3,7 @@
 const { default: axios } = require("axios");
 const moment = require("moment");
 const BTC = require("./models/BTC");
+const BTCOption = require("./models/BTCOption");
 const Modern = require("./models/Modern");
 const TwoD = require("./models/TwoD");
 const TwoDOption = require("./models/TwoDOption");
@@ -69,17 +70,44 @@ module.exports.getBTCLive = async () => {
   const percent = btcData.change.percent.toFixed(2).replace("-", "");
   const twoD = c.slice(-1) + percent.slice(-1);
   const rData = {
-    c,
-    percent,
-    twoD,
+    set: c,
+    value: percent,
+    result: twoD,
   };
 
   return rData;
 };
 
-module.exports.storeBTCData = async () => {
+module.exports.getBTCOptionData = async (time) => {
+  const data = await BTCOption.find({ time: time });
+  return data;
+};
+
+module.exports.storeBTCData = async (time) => {
   const btcLiveData = await this.getBTCLive();
-  const btcData = new BTC(btcLiveData);
+  const btcOptionData = await this.getBTCOptionData(time);
+  console.log("option found", btcOptionData);
+  let saveData = {};
+  if (btcOptionData.length === 0) {
+    saveData = {
+      set: btcLiveData.set,
+      value: btcLiveData.value,
+      result: btcLiveData.result,
+      time: time,
+      date: moment(new Date()).format("YYYY-MM-DD"),
+    };
+  } else {
+    saveData = {
+      set: btcOptionData[0].set,
+      value: btcOptionData[0].value,
+      result: btcOptionData[0].set.slice(-1) + btcOptionData[0].value.slice(-1),
+      time: time,
+      date: moment(new Date()).format("YYYY-MM-DD"),
+    };
+
+    await this.deleteBTCDate(time);
+  }
+  const btcData = new BTC(saveData);
 
   btcData
     .save()
@@ -89,6 +117,11 @@ module.exports.storeBTCData = async () => {
     .catch((error) => {
       console.log("❌ BTC Data saving error", error);
     });
+};
+
+module.exports.deleteBTCDate = async (time) => {
+  await BTCOption.deleteMany({ time: time });
+  console.log("✅ BTC Data deleted");
 };
 
 module.exports.storeTwoDData = async (time) => {

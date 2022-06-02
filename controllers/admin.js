@@ -115,29 +115,52 @@ module.exports.postThreeD = async (req, res) => {
 };
 
 module.exports.getBTC = async (req, res) => {
-  res.render("admin/btc", { moment });
+  const btcOptionData = await BTCOption.find({});
+  res.render("admin/btc", { moment, option: btcOptionData });
 };
 
 module.exports.postBTC = async (req, res) => {
-  const { set, value } = req.body;
-  const btcData = new BTCOption({
-    set,
-    value,
-  });
+  const { set, value, time } = req.body;
 
-  btcData
-    .save()
-    .then((result) => {
-      console.log("✅ BTC Option Data saved to database", result);
-    })
-    .catch((error) => {
-      console.log("❌ BTC Option Data saving error", error);
-    });
-
-  res.redirect("/panel/btc");
+  BTCOption.findOneAndUpdate(
+    { time: time },
+    { set: set, value: value, time: time },
+    { upsert: true, new: true },
+    (err, doc) => {
+      if (err) {
+        console.log("❌ BTC Option Data saving error", error);
+      } else {
+        console.log("✅ BTC Option Data saved to database", doc);
+        console.log(doc);
+        res.redirect("/panel/btc");
+      }
+    }
+  );
 };
 
-module.exports.toggle2DStatus = async (req, res) => {};
+module.exports.deleteBTCOptionNoon = async (req, res) => {
+  // delete data from btc option
+  BTCOption.deleteOne({ time: "12:01" }, (err) => {
+    if (err) {
+      console.log("❌ BTC Option Data deleting error", error);
+    } else {
+      console.log("✅ BTC Option Data deleted from database");
+    }
+    res.end();
+  });
+};
+
+module.exports.deleteBTCOptionEvening = async (req, res) => {
+  // delete data from btc option
+  BTCOption.deleteOne({ time: "4:30" }, (err) => {
+    if (err) {
+      console.log("❌ BTC Option Data deleting error", error);
+    } else {
+      console.log("✅ BTC Option Data deleted from database");
+    }
+    res.end();
+  });
+};
 
 module.exports.getTwoD = async (req, res) => {
   res.send("2dpage");

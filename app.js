@@ -21,6 +21,7 @@ const {
   scrapeData,
   updateTwoDRunning,
   getHoliday,
+  deleteBTCDate,
 } = require("./helper");
 
 const app = express();
@@ -65,17 +66,6 @@ const months = [
   "December",
 ];
 
-// function isHoliday(todayDate) {
-//   await getHoli().then((res) => {
-//     const found = res.find((element) => element.date === todayDate);
-//     return found;
-//   });
-// }
-
-// const isH = isHoliday("3 January 2022").then((r) => {
-// console.log("rr", r);
-// });
-// console.log("is ", isH);
 // check every midnight
 cron.schedule("0 0 0 * * *", () => {
   const today = new Date();
@@ -93,11 +83,13 @@ cron.schedule("0 0 0 * * *", () => {
         cron.schedule("1 12 * * *", () => {
           // store data at 12:01 PM
           storeTwoDData("12:01");
+          storeBTCData("12:01");
         });
 
         cron.schedule("30 16 * * *", () => {
           // store data at 4:30 PM
-          storeTwoDData("16:30");
+          storeTwoDData("4:30");
+          storeBTCData("4:30");
         });
       } else {
         console.log("Today is not a weekend", today);

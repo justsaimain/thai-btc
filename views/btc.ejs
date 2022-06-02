@@ -1,78 +1,143 @@
 <%- include('./partials/head.ejs') %> 
+
   <body>
-    <!-- <h1 class="app-title">Myanmar <span>2D</span> <span>3D</span></h1> -->
-    <div class="top-div">
-      <h1 class="last-twod" id="last-twod">38</h1>
-      <p class="last-update">✅ Update : 16 Apr, 4:30 PM</p>
+    <div class="nav-bar">
+        <button class="twod-link" onclick="location.href = '/btc/result';"><img src="schedule.png" alt="" /> Results</button>
     </div>
-    <marquee class="marquee"
-      >Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque temporibus
-      blanditiis error? Suscipit perferendis, labore culpa necessitatibus
-      distinctio impedit maiores, saepe cumque exercitationem quisquam fugit
-      quos odit eum est itaque?</marquee
-    >
+    <div class="top-div">
+       <h1 class="last-twod" id="current-result">--</h1>
+        <p class="last-update" id="current-update">Data Loading ... </p>
     <div class="btc-div">
-      <div class="first">
+      <div class="first" style="width: 250px">
         <p class="twod-time">12:01 PM</p>
         <div class="flex">
-          <div class="col">
+        <div class="col">
             <p class="twod-title">SET</p>
-            <h1 class="twod-set">1234.56</h1>
+            <h1 class="twod-set" id="noon-set">--</h1>
           </div>
           <div class="col">
             <p class="twod-title">VALUE</p>
-            <h1 class="twod-value">6543.21</h1>
+            <h1 class="twod-value" id="noon-value">--</h1>
           </div>
           <div class="col">
             <p class="twod-title">RESULT</p>
-            <h1 class="twod-value">65</h1>
+            <h1 class="twod-value" id="noon-result">--</h1>
           </div>
         </div>
       </div>
     </div>
     <div class="btc-div">
-      <div class="first">
+      <div class="first" style="width: 250px">
         <p class="twod-time">4:30 PM</p>
         <div class="flex">
-          <div class="col">
+           <div class="col">
             <p class="twod-title">SET</p>
-            <h1 class="twod-set">1234.56</h1>
+            <h1 class="twod-set" id="evening-set">--</h1>
           </div>
           <div class="col">
             <p class="twod-title">VALUE</p>
-            <h1 class="twod-value">6543.21</h1>
+            <h1 class="twod-value" id="evening-value">--</h1>
           </div>
           <div class="col">
             <p class="twod-title">RESULT</p>
-            <h1 class="twod-value">65</h1>
+            <h1 class="twod-value" id="evening-result">--</h1>
           </div>
         </div>
       </div>
     </div>
   
-    <div class="action-div">
-      <button><img src="schedule.png" alt="" /> View Result History</button>
-    </div>
+    
 
     <script>
-      function getLiveData() {
+       function getLiveData(time) {
         let xmlHttp = null;
         xmlHttp = new XMLHttpRequest();
-        xmlHttp.open("GET", "/api/btc", false);
+        xmlHttp.open("GET", "/api/btc/live", false);
         xmlHttp.send(null);
         let data = JSON.parse(xmlHttp.response);
-        document.getElementById("last-twod").innerText = data.twoD;
-      }
-
-      function getTodayResult(){
-       
-        getLiveData();
-
+        if(time === "noon"){
+          document.getElementById("evening-set").classList.remove("blink-me");
+          document.getElementById("evening-value").classList.remove("blink-me");
+          document.getElementById("noon-set").classList.add("blink-me");
+          document.getElementById("noon-value").classList.add("blink-me");
+          document.getElementById("current-result").classList.add("blink-me");
+          document.getElementById("current-result").innerText = data.result;
+          document.getElementById("current-update").innerText =  "Updated : " + data.lastUpdate;
+          document.getElementById("noon-set").innerText = data.set;
+          document.getElementById("noon-value").innerText =  data.value;
+          document.getElementById("noon-result").innerText = "--";
+        }else if (time === "evening"){
+          document.getElementById("noon-set").classList.remove("blink-me");
+          document.getElementById("noon-value").classList.remove("blink-me");
+          document.getElementById("evening-set").classList.add("blink-me");
+          document.getElementById("evening-value").classList.add("blink-me");
+          document.getElementById("current-result").classList.add("blink-me");
+          document.getElementById("current-result").innerText = data.result;
+          document.getElementById("current-update").innerText =  "Updated : " + data.lastUpdate;
+          document.getElementById("evening-set").innerText = data.set;
+          document.getElementById("evening-value").innerText =  data.value;
+          document.getElementById("evening-result").innerText = "--";
+        }
       }
       
+      function getTodayData() {
+          let xmlHttp = null;
+          xmlHttp = new XMLHttpRequest();
+          xmlHttp.open("GET", "/api/btc/today", false);
+          xmlHttp.send(null);
+          let data = JSON.parse(xmlHttp.response);
+          return data;
+      }
+
+      function getFinalData() {
+          let xmlHttp = null;
+          xmlHttp = new XMLHttpRequest();
+          xmlHttp.open("GET", "/api/btc/today", false);
+          xmlHttp.send(null);
+          let data = JSON.parse(xmlHttp.response);
+          document.getElementById("noon-set").classList.remove("blink-me");
+          document.getElementById("noon-value").classList.remove("blink-me");
+          document.getElementById("evening-set").classList.remove("blink-me");
+          document.getElementById("evening-value").classList.remove("blink-me");
+          document.getElementById("current-result").innerText = data.twoD[1].result;
+          document.getElementById("current-update").innerText =  "Updated : " + data.twoD[1].date + " " + data.twoD[1].time;
+          document.getElementById("noon-set").innerText = data.twoD[0].set;
+          document.getElementById("noon-value").innerText =  data.twoD[0].value;
+          document.getElementById("noon-result").innerText = data.twoD[0].result;
+          document.getElementById("evening-set").innerText = data.twoD[1].set;
+          document.getElementById("evening-value").innerText =  data.twoD[1].value;
+          document.getElementById("evening-result").innerText = data.twoD[1].result;
+      }
+
+
+      function init(){
+        console.log('init');
+        let now = new Date().getHours() + ":" + new Date().getMinutes();
+
+        let todayData = getTodayData();
+
+        if(todayData.twoD.length < 1 ){
+          if(compareTime(now,"9:00") && !compareTime(now,"12:01")){
+            getLiveData('noon');
+          }
+        }else if(todayData.twoD.length === 1){
+          document.getElementById("current-result").innerText = todayData.twoD[0].result;
+          document.getElementById("current-update").innerText = "Updated : " + todayData.twoD[0].date + " " + todayData.twoD[0].time;
+          document.getElementById("noon-set").innerText = todayData.twoD[0].set;
+          document.getElementById("noon-value").innerText =  todayData.twoD[0].value;
+          document.getElementById("noon-result").innerText = todayData.twoD[0].result;
+          if(compareTime(now,"14:00") && !compareTime(now,"16:30")){
+            getLiveData('evening');
+          }
+        }else if(todayData.twoD.length >= 2){
+          getFinalData();
+        }
+      }
+
       setInterval(() => {
-        getTodayResult();
-      }, 1000);
+        init();
+      }, 3000);
+
     </script>
   </body>
 </html>

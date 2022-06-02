@@ -1,9 +1,10 @@
 <%- include('./partials/head.ejs') %> 
 
 <style>
+
   .twod-div .first{
     color: #fff;
-    background-color: #3a86ff;
+    background-color: #fda437;
   }
 
   .twod-time{
@@ -15,14 +16,10 @@
     background-color: #fff;
     color: #333;
   }
-  
 </style>
   <body>
      <div class="nav-bar">
-        <div>
-           <a class="threed-link" href="/3d">3D</a>
-        </div>
-        <button class="twod-link" onclick="location.href = '/';"><img src="schedule.png" alt="" /> 2D Live</button>
+        <button class="twod-link" onclick="location.href = '/btc';"><img src="../schedule.png" alt="" />Live</button>
     </div>
     <div class="twod-div">
     <% data.forEach(d => { %>

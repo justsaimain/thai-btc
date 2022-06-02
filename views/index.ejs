@@ -10,27 +10,21 @@
       <h1 class="last-twod" id="current-result">--</h1>
       <p class="last-update" id="current-update">Data Loading ... </p>
     </div>
-    <!-- <marquee class="marquee"
-      >Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque temporibus
-      blanditiis error? Suscipit perferendis, labore culpa necessitatibus
-      distinctio impedit maiores, saepe cumque exercitationem quisquam fugit
-      quos odit eum est itaque?</marquee
-    > -->
     <div class="twod-div">
       <div class="first">
         <p class="twod-time">12:01 PM</p>
         <div class="flex">
           <div class="col">
             <p class="twod-title">SET</p>
-            <h1 class="twod-set" id="noon-set"></h1>
+            <h1 class="twod-set" id="noon-set">--</h1>
           </div>
           <div class="col">
             <p class="twod-title">VALUE</p>
-            <h1 class="twod-value" id="noon-value"></h1>
+            <h1 class="twod-value" id="noon-value">--</h1>
           </div>
           <div class="col">
             <p class="twod-title">RESULT</p>
-            <h1 class="twod-value" id="noon-result"></h1>
+            <h1 class="twod-value" id="noon-result">--</h1>
           </div>
         </div>
       </div>
@@ -39,15 +33,15 @@
         <div class="flex">
           <div class="col">
             <p class="twod-title">SET</p>
-            <h1 class="twod-set" id="evening-set"></h1>
+            <h1 class="twod-set" id="evening-set">--</h1>
           </div>
           <div class="col">
             <p class="twod-title">VALUE</p>
-            <h1 class="twod-value" id="evening-value"></h1>
+            <h1 class="twod-value" id="evening-value">--</h1>
           </div>
           <div class="col">
             <p class="twod-title">RESULT</p>
-            <h1 class="twod-value" id="evening-result"></h1>
+            <h1 class="twod-value" id="evening-result">--</h1>
           </div>
         </div>
       </div>
@@ -215,6 +209,9 @@
         if(todayData.twoD.length < 1 ){
           if(compareTime(now,"9:00") && !compareTime(now,"12:01")){
             getLiveData('noon');
+          }else{
+          document.getElementById("current-update").innerText ='No Data Available';
+
           }
         }else if(todayData.twoD.length === 1){
           document.getElementById("current-result").innerText = todayData.twoD[0].result;

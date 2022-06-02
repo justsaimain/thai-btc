@@ -3,6 +3,7 @@ const TwoD = require("../models/TwoD");
 const moment = require("moment");
 const Modern = require("../models/Modern");
 const ThreeD = require("../models/ThreeD");
+const BTC = require("../models/BTC");
 
 module.exports.getLive = async (req, res) => {
   const data = await scrapeData();
@@ -81,4 +82,18 @@ module.exports.getHoliday = async (req, res) => {
   } catch (e) {
     console.log(e);
   }
+};
+
+module.exports.getTodayBTCResult = async (req, res) => {
+  const today = moment(new Date()).format("YYYY-MM-DD");
+  const twoD = await BTC.find({
+    date: today,
+  }).sort({
+    time: 1,
+  });
+
+  const data = {
+    twoD,
+  };
+  res.send(data);
 };

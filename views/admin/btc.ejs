@@ -60,18 +60,65 @@
     border-radius: 5px;
     text-align: center;
   }
+
+  .option-text{
+    font-size: 14px;
+    color: #333;
+    margin: 10px auto;
+    display: inline-block;
+  }
+  .delete-span{
+    font-size: 14px;
+    text-decoration: underline;
+    color: #ff0000;
+    cursor: pointer;
+  }
 </style>
   <body>
     <%- include('./partials/app_title.ejs') %> 
-    <h1 class="main-title">Manage BTC</h1>
-    <h1 class="main-date"><%= moment(new Date()).format('D/M/YYYY') %> </h1>
+    <h1 class="main-title">BTC Manual</h1>
+    <h1 class="main-date"><%= moment(new Date()).format('DD/MM/YYYY') %></h1>
+    Upcoming Results 
+    <% option.forEach(element => { %>
+      <p class="option-text"><%= element.time %> PM - set :<%= element.set %> / value :<%= element.value %> / result : <%= element.set.slice(-1) + element.value.slice(-1) %></p>
+      <span class="delete-span" data-time="<%= element.time %>">Delete</span>
+    <% }) %>
     <form class="data-form" action="/panel/btc" method="POST">
-      <input class="input-text" type="text" name="set" placeholder="Set (123.45)"   />
-      <input class="input-text" type="text" name="value" placeholder="Value (1.23)" />
+      <div class="choose-time">
+        <input type="radio" id="noon" name="time" value="12:01" />
+        <label for="noon">12:01 PM</label>
+        <input type="radio" id="evening" name="time" value="4:30" />
+        <label for="evening">4:30 PM</label>
+      </div>
+      <input class="input-text" type="text" name="set" placeholder="Set" />
+      <input class="input-text" type="text" name="value" placeholder="Value" />
       <button  class="submit-btn" type="submit">Add</button>
     </form>
     <div style="display: flex">
       <a class="main-panel-btn" href="/panel">Go Back Main Panel</a>
     </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+      $(document).ready(function(){
+        $('.delete-span').click(function(){
+          const time = $(this).data('time');
+          let url = ""
+          switch (time) {
+            case "12:01":
+              url = "btc/delete/option/noon"
+              break;
+              case "4:30":
+              url = "btc/delete/option/evening"
+              break;
+          }
+
+          let xmlHttp = null;
+          xmlHttp = new XMLHttpRequest();
+          xmlHttp.open("POST", url, false);
+          xmlHttp.send(null);
+          location.reload();
+        });
+      });
+    </script>
   </body>
 </html>

@@ -15,7 +15,8 @@ const {
   postThreeD,
   getBTC,
   postBTC,
-  toggle2DStatus,
+  deleteBTCOptionNoon,
+  deleteBTCOptionEvening,
 } = require("../controllers/admin");
 
 const { adminMiddleware } = require("../middleware");
@@ -35,8 +36,8 @@ router.get("/3d", getThreeD);
 router.post("/3d", postThreeD);
 router.get("/btc", getBTC);
 router.post("/btc", postBTC);
-
-router.post("/2d/toggle", toggle2DStatus);
+router.post("/btc/delete/option/noon", deleteBTCOptionNoon);
+router.post("/btc/delete/option/evening", deleteBTCOptionEvening);
 
 router.post("/logout", logout);
 

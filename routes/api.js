@@ -9,12 +9,14 @@ const {
   getYesterdayResult,
   getHoliday,
   getThreeDHistory,
+  getTodayBTCResult,
 } = require("../controllers/api");
 const router = Router();
 
 router.use(express.static("public"));
 
 router.get("/live", getLive);
+router.get("/btc/today", getTodayBTCResult);
 router.get("/today", getTodayResult);
 router.get("/yesterday", getYesterdayResult);
 router.get("/mod", getMod);
