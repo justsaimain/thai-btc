@@ -4,15 +4,45 @@ const ThreeD = require("../models/ThreeD");
 const TwoD = require("../models/TwoD");
 const dotenv = require("dotenv");
 const BTC = require("../models/BTC");
+const { getHoliday } = require("../helper");
 dotenv.config();
 const baseURL = process.env.BASE_URL;
-module.exports.getIndex = async (req, res) => {
-  const rToday = await axios.get(`${baseURL}/api/today`);
-  const rYesterday = await axios.get(`${baseURL}/api/yesterday`);
-  const today = rToday.data;
-  const yesterday = rYesterday.data;
+const months = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
 
-  res.render("index", { moment, yesterday });
+const today = new Date();
+const todayDate =
+  today.getDate() + " " + months[today.getMonth()] + " " + today.getFullYear();
+async function isHoliday(todayDate) {
+  const holiday = await getHoliday();
+  const hasHolidayValue = holiday.some((d) => d.date === todayDate);
+  const whyHoliday = holiday.filter((d) => d.date === todayDate);
+  return {
+    hasHolidayValue,
+    whyHoliday,
+  };
+}
+
+module.exports.getIndex = async (req, res) => {
+  isHoliday(todayDate).then((holi) => {
+    res.render("index", {
+      holiday: holi?.hasHolidayValue,
+      whyholiday: holi.whyHoliday[0]?.reason,
+      moment,
+    });
+  });
 };
 
 module.exports.getBTCPage = async (req, res) => {

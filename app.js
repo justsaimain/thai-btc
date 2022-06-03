@@ -23,6 +23,7 @@ const {
   getHoliday,
   deleteBTCDate,
 } = require("./helper");
+const e = require("connect-flash");
 
 const app = express();
 app.set("view engine", "ejs");
@@ -77,6 +78,7 @@ cron.schedule("0 0 0 * * *", () => {
     today.getFullYear();
 
   if (!isWeekend(today)) {
+    console.log("Today is not weekend");
     // schedules
     cron.schedule("1 12 * * *", () => {
       // store data at 12:01 PM
@@ -90,7 +92,7 @@ cron.schedule("0 0 0 * * *", () => {
   }
 
   isHoliday(todayDate).then((status) => {
-    if (status) {
+    if (!status) {
       if (!isWeekend(today)) {
         // schedules
         cron.schedule("1 12 * * *", () => {
@@ -103,6 +105,8 @@ cron.schedule("0 0 0 * * *", () => {
           storeTwoDData("4:30");
         });
       }
+    } else {
+      console.log("today is holiday", status);
     }
   });
 });
