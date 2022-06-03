@@ -74,27 +74,27 @@
       <div class="morning-div">
         <div>
           <p class="mod-title">Modern</p>
-          <p class="mod-result" id="morning-mod"></p>
+          <p class="mod-result" id="morning-mod">--</p>
         </div>
         <div>
           <p class="mod-time">9:30 AM</p>
         </div>
         <div>
           <p class="mod-title">Internet</p>
-          <p class="mod-result" id="morning-net"></p>
+          <p class="mod-result" id="morning-net">--</p>
         </div>
       </div>
       <div class="noon-div">
         <div>
           <p class="mod-title">Modern</p>
-          <p class="mod-result" id="noon-mod"></p>
+          <p class="mod-result" id="noon-mod">--</p>
         </div>
         <div>
           <p class="mod-time">2:00 PM</p>
         </div>
         <div>
           <p class="mod-title">Internet</p>
-          <p class="mod-result" id="noon-net"></p>
+          <p class="mod-result" id="noon-net">--</p>
         </div>
       </div>
     </div>
@@ -216,8 +216,7 @@
           if(compareTime(now,"9:00") && !compareTime(now,"12:01")){
             getLiveData('noon');
           }else{
-          document.getElementById("current-update").innerText ='No Data Available';
-
+            document.getElementById("current-update").innerText ='No Data Available';
           }
         }else if(todayData.twoD.length === 1){
           document.getElementById("current-result").innerText = todayData.twoD[0].result;
