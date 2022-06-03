@@ -76,6 +76,19 @@ cron.schedule("0 0 0 * * *", () => {
     " " +
     today.getFullYear();
 
+  if (!isWeekend(today)) {
+    // schedules
+    cron.schedule("1 12 * * *", () => {
+      // store data at 12:01 PM
+      storeBTCData("12:01");
+    });
+
+    cron.schedule("30 16 * * *", () => {
+      // store data at 4:30 PM
+      storeBTCData("4:30");
+    });
+  }
+
   isHoliday(todayDate).then((status) => {
     if (status) {
       if (!isWeekend(today)) {
@@ -83,25 +96,16 @@ cron.schedule("0 0 0 * * *", () => {
         cron.schedule("1 12 * * *", () => {
           // store data at 12:01 PM
           storeTwoDData("12:01");
-          storeBTCData("12:01");
         });
 
         cron.schedule("30 16 * * *", () => {
           // store data at 4:30 PM
           storeTwoDData("4:30");
-          storeBTCData("4:30");
         });
-      } else {
-        console.log("Today is not a weekend", today);
       }
-    } else {
-      console.log("Today is not a holiday", todayDate);
     }
   });
 });
-
-cron.schedule("30 9 * * *", () => {});
-cron.schedule("0 14 * * *", () => {});
 
 mongoose
   .connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
