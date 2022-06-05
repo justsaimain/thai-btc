@@ -62,8 +62,7 @@ module.exports.logout = async (req, res) => {
 };
 
 module.exports.getPanel = async (req, res) => {
-  const isRunning = await TwoDOption.find({});
-  res.render("admin/index", { isRunning: isRunning[0].running });
+  res.render("admin/index");
 };
 
 module.exports.getMod = async (req, res) => {

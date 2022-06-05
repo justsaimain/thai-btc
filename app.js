@@ -1,6 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const bodyParser = require("body-parser");
+const bodyParser = require("body-parser");i
 const dotenv = require("dotenv");
 dotenv.config();
 const cron = require("node-cron");
