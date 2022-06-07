@@ -69,9 +69,7 @@ const months = [
 ];
 
 // check every midnight
-cron.schedule("15 1 * * *", () => {
-  console.log("sch");
-  // cron.schedule("0 0 0 * * *", () => {
+cron.schedule("20 1 * * *", () => {
   const today = new Date();
   const todayDate =
     today.getDate() +
