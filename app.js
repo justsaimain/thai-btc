@@ -69,7 +69,7 @@ const months = [
 ];
 
 // check every midnight
-cron.schedule("12 1 * * *", () => {
+cron.schedule("15 1 * * *", () => {
   console.log("sch");
   // cron.schedule("0 0 0 * * *", () => {
   const today = new Date();
@@ -80,10 +80,22 @@ cron.schedule("12 1 * * *", () => {
     " " +
     today.getFullYear();
 
-  fs.appendFile("./logs/schedule.txt", `Date - ${todayDate}`);
+  fs.appendFile("./logs/schedule.txt", `Date - ${todayDate}`, function (err) {
+    if (err) {
+      console.log("log write error");
+    } else {
+      console.log("log write success");
+    }
+  });
   if (!isWeekend(today)) {
     console.log("Today is not weekend");
-    fs.appendFile("./logs/schedule.txt", ` / BTC (Open)`);
+    fs.appendFile("./logs/schedule.txt", ` / BTC (Open)`, function (err) {
+      if (err) {
+        console.log("log write error");
+      } else {
+        console.log("log write success");
+      }
+    });
     // schedules
     console.log("BTC Data will store at 12:01 PM");
     cron.schedule("1 12 * * *", () => {
@@ -96,14 +108,30 @@ cron.schedule("12 1 * * *", () => {
       storeBTCData("4:30");
     });
   } else {
-    fs.appendFile("./logs/schedule.txt", ` / BTC (Close - Weekend)`);
+    fs.appendFile(
+      "./logs/schedule.txt",
+      ` / BTC (Close - Weekend)`,
+      function (err) {
+        if (err) {
+          console.log("log write error");
+        } else {
+          console.log("log write success");
+        }
+      }
+    );
   }
 
   isHoliday(todayDate).then((status) => {
     if (!status) {
       console.log("today is not holiday");
       if (!isWeekend(today)) {
-        fs.appendFile("./logs/schedule.txt", ` / 2D (Open)`);
+        fs.appendFile("./logs/schedule.txt", ` / 2D (Open)`, function (err) {
+          if (err) {
+            console.log("log write error");
+          } else {
+            console.log("log write success");
+          }
+        });
 
         // schedules
         console.log("2D Data will store at 12:01 PM");
@@ -118,10 +146,30 @@ cron.schedule("12 1 * * *", () => {
           storeTwoDData("4:30");
         });
       } else {
-        fs.appendFile("./logs/schedule.txt", ` / 2D (Close - Weekend)`);
+        fs.appendFile(
+          "./logs/schedule.txt",
+          ` / 2D (Close - Weekend)`,
+          function (err) {
+            if (err) {
+              console.log("log write error");
+            } else {
+              console.log("log write success");
+            }
+          }
+        );
       }
     } else {
-      fs.appendFile("./logs/schedule.txt", ` / 2D (Close - Holiday)`);
+      fs.appendFile(
+        "./logs/schedule.txt",
+        ` / 2D (Close - Holiday)`,
+        function (err) {
+          if (err) {
+            console.log("log write error");
+          } else {
+            console.log("log write success");
+          }
+        }
+      );
     }
   });
 });
