@@ -112,9 +112,35 @@ module.exports.storeBTCData = async (time) => {
   btcData
     .save()
     .then((result) => {
+      fs.appendFile(
+        "./logs/schedule.txt",
+        `BTC data store success at ${moment(new Date()).format(
+          "YYYY-MM-DD HH:mm:ii"
+        )}`,
+        function (err) {
+          if (err) {
+            console.log("log write error");
+          } else {
+            console.log("log write success");
+          }
+        }
+      );
       console.log("✅ BTC Data saved to database", result);
     })
     .catch((error) => {
+      fs.appendFile(
+        "./logs/schedule.txt",
+        `BTC data store failed at ${moment(new Date()).format(
+          "YYYY-MM-DD HH:mm:ii"
+        )}`,
+        function (err) {
+          if (err) {
+            console.log("log write error");
+          } else {
+            console.log("log write success");
+          }
+        }
+      );
       console.log("❌ BTC Data saving error", error);
     });
 };
@@ -137,9 +163,35 @@ module.exports.storeTwoDData = async (time) => {
   twoDData
     .save()
     .then((result) => {
+      fs.appendFile(
+        "./logs/schedule.txt",
+        `2D data store success at ${moment(new Date()).format(
+          "YYYY-MM-DD HH:mm:ii"
+        )}`,
+        function (err) {
+          if (err) {
+            console.log("log write error");
+          } else {
+            console.log("log write success");
+          }
+        }
+      );
       console.log("✅ 2D Data saved to database", result);
     })
     .catch((error) => {
+      fs.appendFile(
+        "./logs/schedule.txt",
+        `2D data store failed at ${moment(new Date()).format(
+          "YYYY-MM-DD HH:mm:ii"
+        )}`,
+        function (err) {
+          if (err) {
+            console.log("log write error");
+          } else {
+            console.log("log write success");
+          }
+        }
+      );
       console.log("❌ 2D Data saving error", error);
     });
 };

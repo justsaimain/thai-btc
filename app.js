@@ -10,6 +10,7 @@ const flash = require("connect-flash");
 const toastr = require("express-toastr");
 const port = process.env.PORT;
 const dbURI = process.env.DB_URI;
+var fs = require("fs");
 
 const userRoute = require("./routes/user");
 const adminRoute = require("./routes/admin");
@@ -69,7 +70,7 @@ const months = [
 
 // check every midnight
 // cron.schedule("0 0 0 * * *", () => {
-cron.schedule("52 0 * * *", () => {
+cron.schedule("10 5 1 * * *", () => {
   const today = new Date();
   const todayDate =
     today.getDate() +
@@ -78,6 +79,13 @@ cron.schedule("52 0 * * *", () => {
     " " +
     today.getFullYear();
 
+  fs.appendFile("./logs/schedule.txt", `Date - ${todayDate}`, function (err) {
+    if (err) {
+      console.log("log write error");
+    } else {
+      console.log("log write success");
+    }
+  });
   if (!isWeekend(today)) {
     console.log("Today is not weekend");
     // schedules
@@ -85,9 +93,6 @@ cron.schedule("52 0 * * *", () => {
     cron.schedule("1 12 * * *", () => {
       // store data at 12:01 PM
       storeBTCData("12:01");
-    });
-    cron.schedule("10 52 0 * * *", () => {
-      console.log("testing schedule");
     });
     console.log("BTC Data will store at 4:30 PM");
     cron.schedule("30 16 * * *", () => {
