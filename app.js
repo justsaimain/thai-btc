@@ -69,8 +69,8 @@ const months = [
 ];
 
 // check every midnight
-// cron.schedule("0 0 0 * * *", () => {
-cron.schedule("10 5 1 * * *", () => {
+cron.schedule("10 1 * * *", () => {
+  // cron.schedule("0 0 0 * * *", () => {
   const today = new Date();
   const todayDate =
     today.getDate() +
@@ -79,15 +79,10 @@ cron.schedule("10 5 1 * * *", () => {
     " " +
     today.getFullYear();
 
-  fs.appendFile("./logs/schedule.txt", `Date - ${todayDate}`, function (err) {
-    if (err) {
-      console.log("log write error");
-    } else {
-      console.log("log write success");
-    }
-  });
+  fs.appendFile("./logs/schedule.txt", `Date - ${todayDate}`);
   if (!isWeekend(today)) {
     console.log("Today is not weekend");
+    fs.appendFile("./logs/schedule.txt", ` / BTC (Open)`);
     // schedules
     console.log("BTC Data will store at 12:01 PM");
     cron.schedule("1 12 * * *", () => {
@@ -99,12 +94,16 @@ cron.schedule("10 5 1 * * *", () => {
       // store data at 4:30 PM
       storeBTCData("4:30");
     });
+  } else {
+    fs.appendFile("./logs/schedule.txt", ` / BTC (Close - Weekend)`);
   }
 
   isHoliday(todayDate).then((status) => {
     if (!status) {
       console.log("today is not holiday");
       if (!isWeekend(today)) {
+        fs.appendFile("./logs/schedule.txt", ` / 2D (Open)`);
+
         // schedules
         console.log("2D Data will store at 12:01 PM");
         cron.schedule("1 12 * * *", () => {
@@ -117,9 +116,11 @@ cron.schedule("10 5 1 * * *", () => {
           // store data at 4:30 PM
           storeTwoDData("4:30");
         });
+      } else {
+        fs.appendFile("./logs/schedule.txt", ` / 2D (Close - Weekend)`);
       }
     } else {
-      console.log("today is holiday", status);
+      fs.appendFile("./logs/schedule.txt", ` / 2D (Close - Holiday)`);
     }
   });
 });
