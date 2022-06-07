@@ -69,7 +69,7 @@ const months = [
 
 // check every midnight
 // cron.schedule("0 0 0 * * *", () => {
-cron.schedule("48 0 * * *", () => {
+cron.schedule("52 0 * * *", () => {
   const today = new Date();
   const todayDate =
     today.getDate() +
@@ -81,14 +81,16 @@ cron.schedule("48 0 * * *", () => {
   if (!isWeekend(today)) {
     console.log("Today is not weekend");
     // schedules
+    console.log("BTC Data will store at 12:01 PM");
     cron.schedule("1 12 * * *", () => {
-      console.log("BTC Data will store at 12:01 PM");
       // store data at 12:01 PM
       storeBTCData("12:01");
     });
-
+    cron.schedule("10 52 0 * * *", () => {
+      console.log("testing schedule");
+    });
+    console.log("BTC Data will store at 4:30 PM");
     cron.schedule("30 16 * * *", () => {
-      console.log("BTC Data will store at 4:30 PM");
       // store data at 4:30 PM
       storeBTCData("4:30");
     });
@@ -99,15 +101,15 @@ cron.schedule("48 0 * * *", () => {
       console.log("today is not holiday");
       if (!isWeekend(today)) {
         // schedules
+        console.log("2D Data will store at 12:01 PM");
         cron.schedule("1 12 * * *", () => {
           // store data at 12:01 PM
-          console.log("2D Data will store at 12:01 PM");
           storeTwoDData("12:01");
         });
 
+        console.log("2D Data will store at 4:30 PM");
         cron.schedule("30 16 * * *", () => {
           // store data at 4:30 PM
-          console.log("2D Data will store at 4:30 PM");
           storeTwoDData("4:30");
         });
       }
