@@ -69,7 +69,8 @@ const months = [
 ];
 
 // check every midnight
-cron.schedule("20 1 * * *", () => {
+cron.schedule("30 0 * * *", () => {
+  // cron.schedule("20 1 * * *", () => {
   const today = new Date();
   const todayDate =
     today.getDate() +
@@ -96,7 +97,8 @@ cron.schedule("20 1 * * *", () => {
     });
     // schedules
     console.log("BTC Data will store at 12:01 PM");
-    cron.schedule("1 12 * * *", () => {
+    cron.schedule("31 0 * * *", () => {
+      // cron.schedule("1 12 * * *", () => {
       // store data at 12:01 PM
       storeBTCData("12:01");
     });
